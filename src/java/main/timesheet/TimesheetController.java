@@ -11,9 +11,7 @@ public class TimesheetController {
 
     private Map<String, String> args;
     private UserPrefs userPrefs;
-    public final static
-    //public final static String USERNAME_KEY = "username";
-    //public final static String PW_KEY = "pw";
+    public final static String[] KEYS = {"username", "password"};
 
     public UserPrefs getUserPrefs() {
         return userPrefs;
@@ -31,6 +29,9 @@ public class TimesheetController {
         }
     }
 
+    public TimesheetController() {
+    }
+
     // For now <Username:"usn">, <PW:"pw">
     public Map<String, String> argsParser(String[] args) throws IllegalArgumentException {
         if (args.length != 2) {
@@ -40,8 +41,8 @@ public class TimesheetController {
         String pw = args[1];
         Map<String, String> returnValue = new HashMap<String, String>();
 
-        returnValue.put(USERNAME_KEY, args[0]);
-        returnValue.put(PW_KEY, args[1]);
+        returnValue.put(KEYS[0], args[0]);
+        returnValue.put(KEYS[1], args[1]);
         return returnValue;
     }
 }

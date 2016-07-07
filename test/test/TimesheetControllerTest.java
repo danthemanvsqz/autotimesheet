@@ -1,5 +1,6 @@
 package test;
 
+
 import main.timesheet.TimesheetController;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,16 +19,17 @@ public class TimesheetControllerTest {
 
     @BeforeClass
     public static void setup() {
-        tc = new TimesheetController(null);
+        tc = new TimesheetController();
     }
 
     @Test public void
     argsParser_Should_Return_Hashmap_with_Username_and_Password() throws Exception {
-        String[] fake_args = {"fake_username", "fake_pw"};
+        String[] fake_args = {TimesheetController.KEYS[0] + "=fake_username",
+                TimesheetController.KEYS[1] + "=fake_pw"};
         Map<String, String> expect = new HashMap<String, String>();
 
-        expect.put(TimesheetController.USERNAME_KEY, fake_args[0]);
-        expect.put(TimesheetController.PW_KEY, fake_args[1]);
+        expect.put(TimesheetController.KEYS[0], fake_args[0]);
+        expect.put(TimesheetController.KEYS[1], fake_args[1]);
 
         assertThat(tc.argsParser(fake_args), is(expect));
     }
