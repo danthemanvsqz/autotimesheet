@@ -16,12 +16,10 @@ public class main {
     private static Map<String, String> creds;
 
     public static void main(String[] args) {
-        try {
-            TimesheetController tc = new TimesheetController(args);
-            creds =  tc.argsParser(args);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e);
-        }
+
+        TimesheetController tc = new TimesheetController(args);
+        creds =  tc.argsParser(args);
+
 
         WebDriver driver =  new FirefoxDriver();
         driver.navigate().to("https://workforcenow.adp.com/public/index.htm");
