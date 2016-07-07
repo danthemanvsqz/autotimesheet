@@ -26,13 +26,13 @@ public class TimesheetControllerTest {
         String[] fake_args = {"fake_username", "fake_pw"};
         Map<String, String> expect = new HashMap<String, String>();
 
-        expect.put("username", fake_args[0]);
-        expect.put("pw", fake_args[1]);
+        expect.put(TimesheetController.USERNAME_KEY, fake_args[0]);
+        expect.put(TimesheetController.PW_KEY, fake_args[1]);
 
         assertThat(tc.argsParser(fake_args), is(expect));
     }
 
-    @Test (expected = Exception.class) public void
+    @Test (expected = IllegalArgumentException.class) public void
     argsParser_Should_Throw_Exception_if_Args_Size_Invalid() throws Exception {
         String[] fake_args = {"fake_username"};
 
