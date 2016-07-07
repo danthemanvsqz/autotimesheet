@@ -2,7 +2,10 @@ package main.timesheet;
 
 import main.datastore.UserPrefs;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
 
 public class TimesheetController {
 
@@ -22,8 +25,13 @@ public class TimesheetController {
     }
 
     // For now <Username:"usn">, <PW:"pw">
-    public Map<String,String> argsParser(String[] args) {
+    public Map<String, String> argsParser(String[] args) throws Exception {
+        if (args.length != 2)
+            throw new Exception("args is not the right size");
 
-        return null;
+        Map<String, String> returnValue = new HashMap<String, String>();
+
+
+        return returnValue;
     }
 }
