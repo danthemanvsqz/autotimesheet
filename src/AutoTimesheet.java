@@ -1,8 +1,10 @@
+/**
+ * Created by vasquezd on 7/6/2016.
+ */
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class HelloWorld {
-
+public class AutoTimesheet {
     public static void main(String[] args) {
         // Prints "Hello, World" to the terminal window.
         // Create a new instance of the Firefox driver
@@ -14,5 +16,4 @@ public class HelloWorld {
         driver.get("http://www.google.com");
 
     }
-
 }
