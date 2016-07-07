@@ -24,12 +24,16 @@ public class TimesheetControllerTest {
 
     @Test public void
     argsParser_Should_Return_Hashmap_with_Username_and_Password() throws Exception {
-        String[] fake_args = {TimesheetController.KEYS[0] + "=fake_username",
-                TimesheetController.KEYS[1] + "=fake_pw"};
+        String fake_username = "fake_username";
+        String fake_pw = "fake_pw";
+        String username_key = TimesheetController.KEYS[0];
+        String pw_key = TimesheetController.KEYS[1];
+        String [] fake_args = {username_key + "=" + fake_username,
+            pw_key + "=" + fake_pw};
         Map<String, String> expect = new HashMap<String, String>();
 
-        expect.put(TimesheetController.KEYS[0], fake_args[0]);
-        expect.put(TimesheetController.KEYS[1], fake_args[1]);
+        expect.put(username_key, fake_username);
+        expect.put(pw_key, fake_pw);
 
         assertThat(tc.argsParser(fake_args), is(expect));
     }
@@ -38,6 +42,17 @@ public class TimesheetControllerTest {
     argsParser_Should_Throw_Exception_if_Args_Size_Invalid() throws Exception {
         String[] fake_args = {"fake_username"};
 
+        tc.argsParser(fake_args);
+    }
+
+    @Test (expected = IllegalArgumentException.class) public void
+    argsParser_Should_Throw_Exception_if_Args_are_null() throws Exception {
+        tc.argsParser(null);
+    }
+
+    @Test (expected = IllegalArgumentException.class) public void
+    argsParser_Should_Throw_Exception_if_Args_are_not_valid_args() throws Exception {
+        String [] fake_args = {"password", "biz=baz"};
         tc.argsParser(fake_args);
     }
 
