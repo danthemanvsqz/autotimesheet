@@ -1,11 +1,10 @@
 package main.timesheet;
 
 import main.datastore.UserPrefs;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 public class TimesheetController {
 
