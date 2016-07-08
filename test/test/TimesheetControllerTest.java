@@ -52,7 +52,13 @@ public class TimesheetControllerTest {
 
     @Test (expected = IllegalArgumentException.class) public void
     argsParser_Should_Throw_Exception_if_Args_are_not_valid_args() throws Exception {
-        String [] fake_args = {"password", "biz=baz"};
+        String [] fake_args = {"foo=bar", "biz=baz"};
+        tc.argsParser(fake_args);
+    }
+
+    @Test (expected = IllegalArgumentException.class) public void
+    argsParser_Should_Throw_Exception_if_Args_are_not_Key_Value_pairs() throws Exception {
+        String [] fake_args = {"foo", "bar"};
         tc.argsParser(fake_args);
     }
 

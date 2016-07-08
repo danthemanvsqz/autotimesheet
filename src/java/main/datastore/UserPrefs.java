@@ -1,12 +1,15 @@
 package main.datastore;
 
-public class UserPrefs {
-    private String username;
-    private String pw;
+import java.util.Map;
 
-    public UserPrefs (String username, String pw) {
-        this.username = username;
-        this.pw = pw;
+public class UserPrefs {
+
+    private String username;
+    private String password;
+
+    public UserPrefs (Map<String, String> userData) {
+        this.username = userData.get("username");
+        this.password = userData.get("password");
     }
 
     public String getUsername() {
@@ -17,13 +20,11 @@ public class UserPrefs {
         this.username = username;
     }
 
-    public String getPw() {
-        return pw;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPw(String pw) {
-        this.pw = pw;
+    public void setPassword(String password) {
+        this.password = password;
     }
-
-
 }
