@@ -18,8 +18,6 @@ public class UserPrefs {
     private static final String SATURDAY = "Sat";
     private static final String SUNDAY = "Sun";
 
-    // username=colin.spence@powerschool.com password=mypassword startDay=Mon startTime=9 endTime=18
-
     public UserPrefs (Map<String, String> userData) {
         this.username = userData.get("username");
         this.password = userData.get("password");
