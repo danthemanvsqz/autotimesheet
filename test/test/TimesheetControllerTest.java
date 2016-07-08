@@ -23,14 +23,24 @@ public class TimesheetControllerTest {
     argsParser_Should_Return_Hashmap_with_Username_and_Password() throws Exception {
         String fake_username = "fake_username";
         String fake_pw = "fake_pw";
+        String fake_start_day = "Fake_start";
+        String fake_start_time = "fake_st";
+        String fake_end_time = "fake_end";
         String username_key = TimesheetController.KEYS[0];
         String pw_key = TimesheetController.KEYS[1];
+        String sd_key = TimesheetController.KEYS[2];
+        String st_key = TimesheetController.KEYS[3];
+        String et_key = TimesheetController.KEYS[4];
         String [] fake_args = {username_key + "=" + fake_username,
-            pw_key + "=" + fake_pw};
+            pw_key + "=" + fake_pw, sd_key + "=" + fake_start_day,
+            st_key + "=" + fake_start_time, et_key + "=" + fake_end_time};
         Map<String, String> expect = new HashMap<String, String>();
 
         expect.put(username_key, fake_username);
         expect.put(pw_key, fake_pw);
+        expect.put(sd_key, fake_start_day);
+        expect.put(st_key, fake_start_time);
+        expect.put(et_key, fake_end_time);
 
         assertThat(tc.argsParser(fake_args), is(expect));
     }
