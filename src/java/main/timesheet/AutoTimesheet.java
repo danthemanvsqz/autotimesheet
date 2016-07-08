@@ -55,7 +55,7 @@ public class AutoTimesheet {
         $(By.cssSelector(MYSELF_TAB_SELECTOR)).shouldBe(Condition.visible).click();
         $(By.cssSelector(TIME_AND_ATTENDANCE_SELECTOR)).shouldBe(Condition.visible).click();
         $(By.cssSelector(MY_TIMECARD_SELECTOR)).shouldBe(Condition.visible).click();
-        sleep(1000);
+        $(By.id("btnSubmit")).waitUntil(Condition.visible,20000);
     }
 
     public void enterHours() {
@@ -64,19 +64,33 @@ public class AutoTimesheet {
             String dateId = d.parent().parent().$("td[id *= 'InDate'] div[id *= 'InDate']").getText();
             int count = 0;
             for (SelenideElement e : $$("td[id *= 'InDate'] div[id *= 'InDate']").filterBy(Condition.text(dateId))) {
-                if (count == 0) {
+                if (count % 2 == 0) {
                     if (e.parent().parent().$("td[id *= 'PayCodeID'] div[id *= 'PayCodeID']").getText().contains("")) {
                         e.parent().parent().$("td[id *= 'InTime'] div[id *= 'InTime']").click();
-                        e.parent().parent().$("td[id *= 'InTime'] input[id *= 'TcTimeTextBox_0']").setValue("8:00AM");
-                        e.parent().parent().$("td[id *= 'OutTime'] div[id *= 'OutTime']").click();
-                        e.parent().parent().$("td[id *= 'OutTime'] input[id *= 'TcTimeTextBox_1']").setValue("12:00PM");
+                        e.parent().parent().$("td[id *= 'InTime'] input[id *= 'TcTimeTextBox']").setValue("9:00AM");
                     }
                 } else {
                     e.parent().parent().$("td[id *= 'InTime'] div[id *= 'InTime']").click();
-                    e.parent().parent().$("input[id *= 'TcTimeTextBox']").setValue("1:00PM");
-                    e.parent().parent().$("td[id *= 'OutTime'] div[id *= 'OutTime']").click();
-                    e.parent().parent().$("input[id *= 'TcTimeTextBox']").setValue("5:00PM");
+                    e.parent().parent().$("input[id *= 'TcTimeTextBox']").setValue("2:00PM");
                 }
+                count++;
+            }
+        }
+        for (SelenideElement d : $$("td[id *= 'DayName'] div[id *= 'DayName']").filterBy(Condition.hasText("Fri"))) {
+            String dateId = d.parent().parent().$("td[id *= 'InDate'] div[id *= 'InDate']").getText();
+            int count = 0;
+
+            for (SelenideElement e : $$("td[id *= 'InDate'] div[id *= 'InDate']").filterBy(Condition.text(dateId))) {
+
+                if (count % 2 == 0) {
+                e.parent().parent().$("td[id *= 'OutTime'] div[id *= 'OutTime']").click();
+                e.parent().parent().$("td[id *= 'OutTime'] input[id *= 'TcTimeTextBox_1']").setValue("1:00PM");
+                }
+                else {
+                e.parent().parent().$("td[id *= 'OutTime'] div[id *= 'OutTime']").click();
+                e.parent().parent().$("input[id *= 'TcTimeTextBox']").setValue("6:00PM");
+                }
+
                 count++;
             }
         }
