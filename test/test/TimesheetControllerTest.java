@@ -11,9 +11,6 @@ import java.util.Map;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
-/**
- * Created by spencec on 7/7/16.
- */
 public class TimesheetControllerTest {
     private static TimesheetController tc;
 

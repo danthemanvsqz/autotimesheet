@@ -1,14 +1,13 @@
 package main.timesheet;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebDriverRunner;
 import main.datastore.UserPrefs;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.Selenide.*;
 
 public class AutoTimesheet {
 
@@ -25,14 +24,20 @@ public class AutoTimesheet {
     public final static String MY_TIMECARD_SELECTOR =
             "#Myself_ttd_MyselfTabTimecardsAttendanceSchCategoryTLMWebMyTimecard > span:nth-child(2)";
 
+    public final static String PAY_PERIOD_SELECT_SELECTOR = "#widget_dateRangeselect input[role *= 'button']";
+    public final static String PAY_PERIOD_SELECT_LIST = "#dateRangeselect_popup";
+    public final static String PAY_PERIOD_START_DATE_INPUT_SELECTOR = "#dateRangestart";
+    public final static String PAY_PERIOD_END_DATE_INPUT_SELECTOR = "#dateRangeend";
+
+    public final static String DATE_PARTIAL_SELECTOR = "InDate";
+
     public AutoTimesheet(WebDriver wd, UserPrefs up) {
-        this.driver = wd;
+        WebDriverRunner.setWebDriver(wd);
         this.userPrefs = up;
     }
 
     public void run() {
         this.login();
-        //sleep(1000);
         this.openTimesheet();
         this.enterHours();
         sleep(3000);
@@ -40,28 +45,41 @@ public class AutoTimesheet {
     }
 
     public void login() {
-        driver.navigate().to(this.ADPADDRESS);
-        WebElement username_field = driver.findElement(By.cssSelector(USERNAME_SELECTOR));
-        $(username_field).shouldBe(Condition.visible).setValue(this.userPrefs.getUsername());
-        WebElement password_field = driver.findElement(By.cssSelector(PW_SELECTOR));
-        $(password_field).shouldBe(Condition.visible).setValue(this.userPrefs.getPassword());
-        WebElement login_button = driver.findElement(By.cssSelector(LOGIN_BUTTON_SELECTOR));
-        $(login_button).shouldBe(Condition.visible).click();
+        open(ADPADDRESS);
+        $(By.cssSelector(USERNAME_SELECTOR)).shouldBe(Condition.visible).setValue(this.userPrefs.getUsername());
+        $(By.cssSelector(PW_SELECTOR)).shouldBe(Condition.visible).setValue(this.userPrefs.getPassword());
+        $(By.cssSelector(LOGIN_BUTTON_SELECTOR)).shouldBe(Condition.visible).click();
     }
 
     public void openTimesheet() {
-        WebElement myself_tab = driver.findElement(By.cssSelector(MYSELF_TAB_SELECTOR));
-        $(myself_tab).shouldBe(Condition.visible).click();
-        WebElement timeAndAttendance_option = driver.findElement(By.cssSelector(TIME_AND_ATTENDANCE_SELECTOR));
-        $(timeAndAttendance_option).shouldBe(Condition.visible).click();
-        WebElement myTimesheet_option = driver.findElement(By.cssSelector(MY_TIMECARD_SELECTOR));
-        $(myTimesheet_option).shouldBe(Condition.visible).click();
+        $(By.cssSelector(MYSELF_TAB_SELECTOR)).shouldBe(Condition.visible).click();
+        $(By.cssSelector(TIME_AND_ATTENDANCE_SELECTOR)).shouldBe(Condition.visible).click();
+        $(By.cssSelector(MY_TIMECARD_SELECTOR)).shouldBe(Condition.visible).click();
+        sleep(1000);
     }
 
     public void enterHours() {
-        // #r_1
-        WebElement cell1 = driver.findElement(By.cssSelector("#r_1_e_1_Value"));
-        $(cell1).shouldBe(Condition.visible).setValue("8.00");
+
+        for (SelenideElement d : $$("td[id *= 'DayName'] div[id *= 'DayName']").filterBy(Condition.hasText("Fri"))) {
+            String dateId = d.parent().parent().$("td[id *= 'InDate'] div[id *= 'InDate']").getText();
+            int count = 0;
+            for (SelenideElement e : $$("td[id *= 'InDate'] div[id *= 'InDate']").filterBy(Condition.text(dateId))) {
+                if (count == 0) {
+                    if (e.parent().parent().$("td[id *= 'PayCodeID'] div[id *= 'PayCodeID']").getText().contains("")) {
+                        e.parent().parent().$("td[id *= 'InTime'] div[id *= 'InTime']").click();
+                        e.parent().parent().$("td[id *= 'InTime'] input[id *= 'TcTimeTextBox_0']").setValue("8:00AM");
+                        e.parent().parent().$("td[id *= 'OutTime'] div[id *= 'OutTime']").click();
+                        e.parent().parent().$("td[id *= 'OutTime'] input[id *= 'TcTimeTextBox_1']").setValue("12:00PM");
+                    }
+                } else {
+                    e.parent().parent().$("td[id *= 'InTime'] div[id *= 'InTime']").click();
+                    e.parent().parent().$("input[id *= 'TcTimeTextBox']").setValue("1:00PM");
+                    e.parent().parent().$("td[id *= 'OutTime'] div[id *= 'OutTime']").click();
+                    e.parent().parent().$("input[id *= 'TcTimeTextBox']").setValue("5:00PM");
+                }
+                count++;
+            }
+        }
     }
 
     public WebDriver getWd() {
