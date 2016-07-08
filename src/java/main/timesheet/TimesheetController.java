@@ -11,7 +11,7 @@ public class TimesheetController {
     private Map<String, String> args;
     private AutoTimesheet autoTimesheet;
 
-    public final static String[] KEYS = {"username", "password"};
+    public final static String[] KEYS = {"username", "password", "startDay", "startTime", "endTime"};
 
     public TimesheetController(String[] args) {
         try {
@@ -35,7 +35,7 @@ public class TimesheetController {
         if (args == null) {
             throw new IllegalArgumentException("No args passed");
         }
-        if (args.length != 2) {
+        if (args.length != 5) {
             throw new IllegalArgumentException("args is not the right size");
         }
         Map<String, String> returnValue = new HashMap<String, String>();
