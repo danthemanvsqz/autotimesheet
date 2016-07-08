@@ -1,12 +1,54 @@
 package main.datastore;
 
-public class UserPrefs {
-    private String username;
-    private String pw;
+import java.util.Map;
 
-    public UserPrefs (String username, String pw) {
-        this.username = username;
-        this.pw = pw;
+public class UserPrefs {
+
+    private String username;
+    private String password;
+    private String startTime;
+    private String endTime;
+    private String startDay;
+
+    private static final String MONDAY = "Mon";
+    private static final String TUESDAY = "Tue";
+    private static final String WEDNESDAY = "Wed";
+    private static final String THURSDAY = "Thu";
+    private static final String FRIDAY = "Fri";
+    private static final String SATURDAY = "Sat";
+    private static final String SUNDAY = "Sun";
+
+    public UserPrefs (Map<String, String> userData) {
+        this.username = userData.get("username");
+        this.password = userData.get("password");
+        this.startDay = userData.get("startDay");
+        this.startTime = userData.get("startTime");
+        this.endTime = userData.get("endTime");
+    }
+
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String firstHalfStart) {
+        this.startTime = firstHalfStart;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String secondHalfEnd) {
+        this.endTime = secondHalfEnd;
+    }
+
+    public String getStartDay() {
+        return startDay;
+    }
+
+    public void setStartDay(String days) {
+        this.startDay = days;
     }
 
     public String getUsername() {
@@ -17,13 +59,11 @@ public class UserPrefs {
         this.username = username;
     }
 
-    public String getPw() {
-        return pw;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPw(String pw) {
-        this.pw = pw;
+    public void setPassword(String password) {
+        this.password = password;
     }
-
-
 }
